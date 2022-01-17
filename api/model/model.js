@@ -21,8 +21,8 @@ const albumSchema = mongoose.Schema({
     type: Number,
     required: true,
     min: 0,
-    songs: [songSchema],
   },
+  songs: [songSchema],
 });
 
 mongoose.model(process.env.DB_ALBUMS_MODEL, albumSchema);

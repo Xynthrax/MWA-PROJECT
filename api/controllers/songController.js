@@ -60,7 +60,7 @@ const getAll = (req, res) => {
 //   });
 // };
 
-const addSong = (req, res, songs) => {
+const addSong = (req, res, album) => {
   const { title, genre } = req?.body;
 
   if (!title || !genre) {
@@ -70,12 +70,12 @@ const addSong = (req, res, songs) => {
     return;
   }
 
-  songs.push({
+  album.songs.push({
     title,
     genre,
   });
 
-  songs.save((err, updatedSong) => {
+  album.save((err, updatedSong) => {
     let status = 201;
     let message = updatedSong;
 
@@ -99,20 +99,20 @@ const addOne = (req, res) => {
   album
     .findById(albumId)
     .select("songs")
-    .exec((err, songs) => {
+    .exec((err, album) => {
       let status = 201;
       let message = "";
       if (err) {
         status = 500;
         message = err;
-      } else if (!songs) {
+      } else if (!album) {
         status = 404;
         message = process.env.CONTROLLER_SONG_NOT_FOUND;
       }
-      if (songs) {
-        // console.log("asdasdasda", Object.keys(songs), songs);
+      if (album) {
+        console.log("asdasdasda", Object.keys(album), album);
 
-        addSong(req, res, songs);
+        addSong(req, res, album);
       } else {
         res.status(status).json(message);
       }
